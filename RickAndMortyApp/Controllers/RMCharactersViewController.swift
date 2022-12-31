@@ -14,5 +14,12 @@ final class RMCharactersViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         title = "Characters"
+        
+        let request = RMRequest(endpoint: .character,
+                                queryParamets: [
+                                URLQueryItem(name: "name", value: "rick"),
+                                URLQueryItem(name: "status", value: "alive")
+                                ])
+   
     }
 }
