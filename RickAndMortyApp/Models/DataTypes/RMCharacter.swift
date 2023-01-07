@@ -8,15 +8,15 @@
 import Foundation
 
 struct RMCharacter: Codable {
-    let id: String
+    let id: Int
     let name: String
-    let status: String
+    let status: RMCharacterStatus
     let species: String
     let type: String
     let gender: RMCharacterGander
     let origin: RMOrigin
     let location: RMSingleLocation
-    let imageURL: String
+    let image: String
     let episode: [String]
     let url: String
     let created: String
