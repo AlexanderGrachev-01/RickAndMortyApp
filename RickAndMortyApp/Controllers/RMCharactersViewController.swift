@@ -21,11 +21,21 @@ final class RMCharactersViewController: UIViewController {
     }
     
     private func setConstraints() {
+        charactersListView.delegate = self
         NSLayoutConstraint.activate([
             charactersListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             charactersListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             charactersListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             charactersListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
+    }
+}
+
+extension RMCharactersViewController: RMCharactersListViewDelegate {
+    func rmCharactersListView(_ charactersListView: RMCharactersListView, didSelectCharacter character: RMCharacter) {
+        let viewModel = RMCharacterDetailViewViewModel(character: character)
+        let vc = RMCharacterDetailViewController(viewModel: viewModel)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

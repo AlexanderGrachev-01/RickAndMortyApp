@@ -34,13 +34,19 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubviews(imageView, nameLabel, statusLabel)
+        setUpLayer()
         setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUpLayer() {
+        contentView.backgroundColor = .secondarySystemBackground
+        contentView.layer.cornerRadius = 10
+        contentView.clipsToBounds = true
     }
     
     private func setConstraints() {
@@ -53,7 +59,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
             nameLabel.heightAnchor.constraint(equalToConstant: 30),
             nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
             nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
-            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -3),
+            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor),
             
             statusLabel.heightAnchor.constraint(equalToConstant: 30),
             statusLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
