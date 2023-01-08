@@ -9,11 +9,30 @@ import UIKit
 
 final class RMCharactersListViewViewModel: NSObject {
     
-    func fetchCharacters() {
-        RMService.shared.execute(.listCharactersRequest, expecting: RMGetAllCharactersResponse.self) { result in
+    private var characters: [RMCharacter] = [] {
+        didSet {
+            for character in characters {
+                let viewModel = RMCharacterCollectionViewCellViewModel(
+                    characterName: character.name,
+                    characterStatus: character.status,
+                    characterImageURL: URL(string: character.image)
+                )
+                cellViewModels.append(viewModel)
+            }
+        }
+    }
+    
+    private var cellViewModels: [RMCharacterCollectionViewCellViewModel] = []
+    
+    public func fetchCharacters() {
+        RMService.shared.execute(
+            .listCharactersRequest,
+            expecting: RMGetAllCharactersResponse.self
+        ) { [weak self] result in
             switch result {
-            case .success(let model):
-                print("URL: " + String(model.results.first?.image ?? ""))
+            case .success(let responseModel):
+                let result = responseModel.results
+                self?.characters = result
             case .failure(let error):
                 print(String(describing: error))
             }
@@ -23,7 +42,7 @@ final class RMCharactersListViewViewModel: NSObject {
 
 extension RMCharactersListViewViewModel: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        20
+        cellViewModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -32,10 +51,7 @@ extension RMCharactersListViewViewModel: UICollectionViewDataSource {
             for: indexPath) as? RMCharacterCollectionViewCell else {
             fatalError("Unsuppotred cell")
         }
-        let viewModel = RMCharacterCollectionViewCellViewModel(characterName: "Alex",
-                                                               characterStatus: .alive,
-                                                               characterImageURL: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
-        cell.configure(with: viewModel)
+        cell.configure(with: cellViewModels[indexPath.row])
         return cell
     }
 }
