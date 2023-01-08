@@ -25,7 +25,7 @@ class RMCharactersListView: UIView {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.isHidden = true
         view.alpha = 0
-        view.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        view.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellidentifier)
         view.translatesAutoresizingMaskIntoConstraints = false
       return view
     }()
@@ -44,7 +44,7 @@ class RMCharactersListView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupposted")
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setConstraint() {

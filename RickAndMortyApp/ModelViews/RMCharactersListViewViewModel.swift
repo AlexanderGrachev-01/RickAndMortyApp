@@ -13,8 +13,7 @@ final class RMCharactersListViewViewModel: NSObject {
         RMService.shared.execute(.listCharactersRequest, expecting: RMGetAllCharactersResponse.self) { result in
             switch result {
             case .success(let model):
-                print("Total: " + String(model.info.count))
-                print("Page result count: " + String(model.results.count))
+                print("URL: " + String(model.results.first?.image ?? ""))
             case .failure(let error):
                 print(String(describing: error))
             }
@@ -28,8 +27,15 @@ extension RMCharactersListViewViewModel: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .systemGreen
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: RMCharacterCollectionViewCell.cellidentifier,
+            for: indexPath) as? RMCharacterCollectionViewCell else {
+            fatalError("Unsuppotred cell")
+        }
+        let viewModel = RMCharacterCollectionViewCellViewModel(characterName: "Alex",
+                                                               characterStatus: .alive,
+                                                               characterImageURL: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
+        cell.configure(with: viewModel)
         return cell
     }
 }
