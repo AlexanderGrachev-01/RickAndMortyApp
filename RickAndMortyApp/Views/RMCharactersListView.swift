@@ -32,6 +32,7 @@ class RMCharactersListView: UIView {
         view.isHidden = true
         view.alpha = 0
         view.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellidentifier)
+        view.register(RMFooterLoadingCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: RMFooterLoadingCollectionReusableView.identifier)
         view.translatesAutoresizingMaskIntoConstraints = false
       return view
     }()
